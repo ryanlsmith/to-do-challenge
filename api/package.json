@@ -1,0 +1,30 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/main.js",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf build && esbuild src/main.ts --bundle --platform=node --outfile=build/main.js",
+    "dev": "concurrently --kill-others -c 'bgBlue.bold,bgMagenta.bold' --pad-prefix 'pnpm:dev:*'",
+    "dev:build": "rm -rf build && esbuild src/main.ts --bundle --platform=node --outfile=build/main.js --watch=forever",
+    "dev:run": "wait-on build/main.js && nodemon build/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Gabriel Konkle",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "esbuild": "^0.24.0",
+    "nodemon": "^3.1.7"
+  }
+}

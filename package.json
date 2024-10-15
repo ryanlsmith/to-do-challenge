@@ -1,0 +1,23 @@
+{
+  "name": "to-do-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' --pad-prefix 'pnpm:dev:*'",
+    "dev:db": "mkdir -p postgres-data && docker compose up",
+    "dev:api": "wait-on tcp:5432 && pnpm --filter 'api' dev",
+    "dev:ui": "pnpm --filter 'ui' dev"
+  },
+  "keywords": [],
+  "author": "Gabriel Konkle",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "eslint": "^9.11.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.7.0",
+    "wait-on": "^8.0.1"
+  }
+}
