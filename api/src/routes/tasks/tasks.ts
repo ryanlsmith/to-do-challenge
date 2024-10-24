@@ -7,9 +7,11 @@ const tasks = Router()
 
 tasks
   .route('/')
-  .get(async (_, res) => {
+  .get(async (req, res) => {
     try {
-      const tasks = await Task.findAll()
+      const tasks = await Task.findAll({where: {
+        userId: req.query.userId as string
+      }})
       res.json(tasks)
     } catch (error) {
       handleError(res, error)

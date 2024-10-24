@@ -15,7 +15,7 @@ const User: ModelDefined<User, UserCreation> = sequelize.define(
   {
     id: {
       primaryKey: true,
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
     name: {

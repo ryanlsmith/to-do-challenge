@@ -131,3 +131,6 @@ dist
 
 # Postgres
 postgres-data
+
+# build output
+api/build

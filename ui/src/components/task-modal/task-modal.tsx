@@ -1,5 +1,5 @@
 import { formatDistance } from 'date-fns'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Button,
   Form,
@@ -13,8 +13,13 @@ import {
   TextArea,
 } from 'semantic-ui-react'
 import type { Task, TaskCreation } from '../../../../api/src/models'
+import { User } from '../../../../api/src/models/user'
 
-const defaultState: TaskCreation = { title: '', description: '' }
+const defaultState: TaskCreation = {
+  title: '',
+  description: '',
+  userId: '',
+}
 
 export default function ModalExampleModal({
   isOpen,
@@ -22,23 +27,23 @@ export default function ModalExampleModal({
   onAdd,
   onEdit,
   task,
+  user,
 }: {
   isOpen: boolean
   close: () => void
   onAdd?: (taskCreation: TaskCreation) => void
   onEdit?: (taskCreation: Task) => void
   task?: Task
+  user?: User
 }) {
+  defaultState.userId = user?.id || ''
   const initialState = task || defaultState
-  const [taskState, setTaskState] = React.useState<Task | TaskCreation>(
-    initialState
-  )
+  const [taskState, setTaskState] = useState<Task | TaskCreation>(initialState)
   const isCreation = useMemo(() => !task, [task])
-  const updatedVsCreated =
-    task?.createdAt === task?.updatedAt ? 'Created' : 'Updated'
+  const updatedVsCreated = task?.createdAt === task?.updatedAt ? 'Created' : 'Updated'
 
   // Title editing
-  const [isEditingTitle, setIsEditingTitle] = React.useState(isCreation)
+  const [isEditingTitle, setIsEditingTitle] = useState(isCreation)
   function toggleEditingTitle() {
     setIsEditingTitle((prevState) => !prevState)
   }
@@ -47,8 +52,7 @@ export default function ModalExampleModal({
   }
 
   // Description editing
-  const [isEditingDescription, setIsEditingDescription] =
-    React.useState(isCreation)
+  const [isEditingDescription, setIsEditingDescription] = useState(isCreation)
   function toggleEditingDescription() {
     setIsEditingDescription((prevState) => !prevState)
   }
@@ -81,17 +85,15 @@ export default function ModalExampleModal({
   }, [task, isOpen, initialState, isCreation])
 
   return (
-    <Modal onClose={close} open={isOpen} dimmer="blurring">
+    <Modal onClose={close} open={isOpen} dimmer='blurring'>
       <ModalHeader>
         {isEditingTitle ? (
           <Input
-            name="title"
-            action={
-              !isCreation && { icon: 'check', onClick: toggleEditingTitle }
-            }
+            name='title'
+            action={!isCreation && { icon: 'check', onClick: toggleEditingTitle }}
             onChange={changeTitle}
             value={taskState.title}
-            placeholder="Title..."
+            placeholder='Title...'
           />
         ) : (
           <>
@@ -100,7 +102,7 @@ export default function ModalExampleModal({
               style={{ marginLeft: '1rem' }}
               circular
               basic
-              icon="edit"
+              icon='edit'
               onClick={toggleEditingTitle}
             />
           </>
@@ -108,14 +110,14 @@ export default function ModalExampleModal({
       </ModalHeader>
       <ModalContent>
         <ModalDescription>
-          <Header as="h4">Description</Header>
+          <Header as='h4'>Description {user?.name}</Header>
           {isEditingDescription ? (
             <Form>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <TextArea
-                  name="description"
+                  name='description'
                   value={taskState.description}
-                  placeholder="Description..."
+                  placeholder='Description...'
                   onChange={changeDescription}
                 />
                 {!isCreation && (
@@ -123,7 +125,7 @@ export default function ModalExampleModal({
                     style={{ marginLeft: '1rem' }}
                     circular
                     basic
-                    icon="check"
+                    icon='check'
                     onClick={toggleEditingDescription}
                   />
                 )}
@@ -136,7 +138,7 @@ export default function ModalExampleModal({
                 style={{ marginLeft: '1rem' }}
                 circular
                 basic
-                icon="edit"
+                icon='edit'
                 onClick={toggleEditingDescription}
               />
             </>

@@ -1,12 +1,13 @@
 import { DataTypes, ModelDefined, Optional } from 'sequelize'
 import sequelize from '../sequelize'
-// import User from './user'
+import User from './user'
 
 export type Task = {
   id: string
   createdAt: Date
   updatedAt: Date
   title: string
+  userId: string
   description?: string
 }
 
@@ -17,7 +18,7 @@ const Task: ModelDefined<Task, TaskCreation> = sequelize.define(
   {
     id: {
       primaryKey: true,
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
     title: {
@@ -28,17 +29,15 @@ const Task: ModelDefined<Task, TaskCreation> = sequelize.define(
       type: new DataTypes.STRING(4096),
       allowNull: true,
     },
-    // Relationships
-    // userID: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   references: {
-    //     model: User,
-    //     key: 'id',
-    //   },
-    // },
   },
   { timestamps: true }
 )
+
+User.hasMany(Task, {
+  foreignKey: {
+    name:'userId',
+    allowNull: false
+  },
+})
 
 export default Task
