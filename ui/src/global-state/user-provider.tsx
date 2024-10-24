@@ -1,16 +1,33 @@
-import { createContext, Dispatch, useState, type ReactNode } from 'react'
+import { createContext, useState, ReactNode, useEffect } from 'react'
 import { User } from '../../../api/src/models/user'
 
-export const UserContext = createContext<{
+interface UserContextType {
   user: User | null
-  setUser: Dispatch<User | null>
-}>({ user: null, setUser: () => null })
+  setUser: (user: User | null) => void
+}
 
-export default function UserProvider({ children }: { children: ReactNode }) {
+export const UserContext = createContext<UserContextType>({
+  user: null,
+  setUser: () => {},
+})
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  )
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      sessionStorage.setItem('user', JSON.stringify(user))
+    } else {
+      sessionStorage.removeItem('user')
+    }
+  }, [user])
+
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
 }

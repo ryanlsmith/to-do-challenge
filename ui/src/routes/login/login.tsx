@@ -45,12 +45,7 @@ export default function Login() {
     <>
       <Header>What's your name?</Header>
       <Form style={{ maxWidth: '400px' }}>
-        <FormField
-          control={Input}
-          label="Name"
-          placeholder="Name"
-          onChange={updateUserName}
-        />
+        <FormField control={Input} label='Name' placeholder='Name' onChange={updateUserName} />
         <Button onClick={createOrFindUser}>Continue</Button>
       </Form>
     </>

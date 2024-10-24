@@ -1,7 +1,7 @@
 import './app.css'
 
 import Topbar from './components/topbar'
-import UserProvider from './global-state/user-provider'
+import { UserProvider } from './global-state/user-provider'
 import Routes from './routes'
 
 export default function App() {

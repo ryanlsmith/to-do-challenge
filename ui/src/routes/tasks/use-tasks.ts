@@ -1,13 +1,21 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import type { Task, TaskCreation } from '../../../../api/src/models'
+import { UserContext } from '../../global-state/user-provider'
 
 export default function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const { user } = useContext(UserContext)
 
   useEffect(() => {
-    axios.get('http://localhost:3000/tasks').then(({ data }) => setTasks(data))
-  }, [])
+    if (user?.id) {
+      axios
+        .get('http://localhost:3000/tasks', {
+          params: { userId: user?.id },
+        })
+        .then(({ data }) => setTasks(data))
+    }
+  }, [user?.id])
 
   async function createTask(newTask: TaskCreation) {
     const response = await axios.post('http://localhost:3000/tasks', newTask)
@@ -16,13 +24,10 @@ export default function useTasks() {
   }
 
   async function updateTask(updatedTask: Task) {
-    const response = await axios.patch(
-      `http://localhost:3000/tasks/${updatedTask.id}`,
-      updatedTask
-    )
+    const response = await axios.patch(`http://localhost:3000/tasks/${updatedTask.id}`, updatedTask)
     const task = response.data as Task
     setTasks((prevTasks) =>
-      prevTasks.map((prevTask) => (prevTask.id === task.id ? task : prevTask))
+      prevTasks.map((prevTask) => (prevTask.id === task.id ? task : prevTask)),
     )
   }
 
