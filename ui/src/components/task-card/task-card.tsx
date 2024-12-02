@@ -4,7 +4,7 @@ import type { Task } from '../../../../api/src/models'
 import { UserContext } from '../../global-state/user-provider'
 import { useContext } from 'react'
 
-export default function TaskCard({
+export function TaskCard({
   onClick,
   ...task
 }: Task & {

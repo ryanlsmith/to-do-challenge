@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react'
 import { Button } from 'semantic-ui-react'
 import { Task } from '../../../../api/src/models'
-import TaskCard from '../../components/task-card'
-import TaskModal from '../../components/task-modal'
-import useTasks from './use-tasks'
+import { TaskModal } from '../../components/task-modal/task-modal'
+import { TaskCard } from '../../components/task-card/task-card'
+import { useTasks } from './use-tasks'
 import { UserContext } from '../../global-state/user-provider'
 
-export default function Tasks() {
+export function Tasks() {
   const { user } = useContext(UserContext)
   const { tasks, createTask, updateTask } = useTasks()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)

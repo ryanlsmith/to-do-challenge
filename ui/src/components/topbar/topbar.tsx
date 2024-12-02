@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { UserContext } from '../../global-state/user-provider'
 import { Button } from 'semantic-ui-react'
 
-export default function Topbar() {
+export function Topbar() {
   const { user, setUser } = useContext(UserContext)
 
   const logout = () => {
