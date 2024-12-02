@@ -21,7 +21,7 @@ const defaultState: TaskCreation = {
   userId: '',
 }
 
-export default function ModalExampleModal({
+export function TaskModal({
   isOpen,
   close,
   onAdd,
@@ -110,7 +110,7 @@ export default function ModalExampleModal({
       </ModalHeader>
       <ModalContent>
         <ModalDescription>
-          <Header as='h4'>Description {user?.name}</Header>
+          <Header as='h4'>Description</Header>
           {isEditingDescription ? (
             <Form>
               <div style={{ display: 'flex', alignItems: 'center' }}>

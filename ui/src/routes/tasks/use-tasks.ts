@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import type { Task, TaskCreation } from '../../../../api/src/models'
 import { UserContext } from '../../global-state/user-provider'
 
-export default function useTasks() {
+export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
   const { user } = useContext(UserContext)
 

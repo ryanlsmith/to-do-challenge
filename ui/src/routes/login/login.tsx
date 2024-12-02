@@ -18,7 +18,7 @@ async function createUser(newUser: UserCreation) {
   return response.data as User
 }
 
-export default function Login() {
+export function Login() {
   const [userName, setUserName] = useState('')
   const { setUser } = useContext(UserContext)
   const navigate = useNavigate()
